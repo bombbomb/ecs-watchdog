@@ -1,0 +1,14 @@
+{
+  "name": "ecs-watchdog",
+  "version": "0.1.0",
+  "description": "Monitor health of ECS docker containers and restart when needed.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dockerode": "^2.4.3"
+  }
+}
