@@ -1,6 +1,6 @@
 const Docker = require('dockerode');
 
-let docker = new Docker({ socketPath: '/var/run/docker.sock' });
+let docker = new Docker({ socketPath: '/tmp/docker.sock' });
 
 setTimeout(() => {
     docker.listContainers({}, (err, containers) => {
@@ -17,4 +17,4 @@ setTimeout(() => {
            }
        }
     });
-}, 30000);
+}, (process.env.CHECK_INTERVAL || 30) * 1000);
