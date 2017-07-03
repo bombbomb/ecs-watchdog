@@ -18,3 +18,20 @@ setTimeout(() => {
        }
     });
 }, (process.env.CHECK_INTERVAL || 30) * 1000);
+
+const port = process.env.HEALTH_CHECK_PORT || 80;
+const path = process.env.HEALTH_CHECK_PATH || '/health-check';
+const express = require('express');
+const app = express();
+
+app.get(path, (request, response) => {
+    response.sendStatus(200);
+});
+
+app.listen(port, (err) => {
+    if (err) {
+        return console.log('Failed to start ECS watchdog', err)
+    }
+
+    console.log(`ECS watchdog is listening on ${port}`)
+});
