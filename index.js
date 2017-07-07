@@ -3,13 +3,16 @@ const Docker = require('dockerode');
 let docker = new Docker({ socketPath: '/tmp/docker.sock' });
 
 const restartMode = !!process.env.RESTART_MODE;
+const restartImages = process.env.RESTART_IMAGES ? process.env.RESTART_IMAGES.split(',') : [];
 
 setInterval(() => {
     docker.listContainers({}, (err, containers) => {
        for (let c of containers) {
            if (c.Status.indexOf('(unhealthy)') !== -1) {
                let container = docker.getContainer(c.Id);
-               if (restartMode) {
+
+               if (restartMode || restartImages.indexOf(c.Image)
+               ) {
                    container.restart().then(() => {
                        console.log(`Successfully restarted unhealthy container: ${c.Image}.`);
                    }).catch(() => {
